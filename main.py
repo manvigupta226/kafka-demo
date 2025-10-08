@@ -1,9 +1,10 @@
 import json
+import os
 from kafka import KafkaProducer
 
-folderName = "~/kafkaCerts/kafka-pizza/"
+folderName = "C:/Users/mgupt/Desktop/KafkaDemo/env/"
 producer = KafkaProducer(
-    bootstrap_servers="<INSTANCE_NAME>--<PROJECT_NAME>.aivencloud.com:<PORT>",
+    bootstrap_servers="kafka-demo-manvigupta226-fbca.c.aivencloud.com:28258",
     security_protocol="SSL",
     ssl_cafile=folderName+"ca.pem",
     ssl_certfile=folderName+"service.cert",
@@ -11,3 +12,9 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode('ascii'),
     key_serializer=lambda v: json.dumps(v).encode('ascii')
 )
+
+producer.send("test-topic",
+                key={"key": 1},
+                value={"message": "hello world"}
+            )
+producer.flush()            
